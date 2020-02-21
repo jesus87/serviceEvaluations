@@ -1,0 +1,8 @@
+[20-Feb-2020 04:55:42 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 16
+[20-Feb-2020 05:47:19 UTC] PHP Fatal error:  Call to undefined function random_bytes() in /home/jesusga1/public_html/serviceEvaluations/appx/controllers/API.php on line 64
+[20-Feb-2020 05:54:44 UTC] PHP Fatal error:  Class 'OAuthProvider' not found in /home/jesusga1/public_html/serviceEvaluations/appx/controllers/API.php on line 65
+[20-Feb-2020 15:41:28 UTC] PHP Parse error:  syntax error, unexpected 'usuario' (T_STRING) in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 13
+[20-Feb-2020 15:41:48 UTC] PHP Parse error:  syntax error, unexpected 'usuario' (T_STRING) in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 13
+[20-Feb-2020 16:24:58 UTC] PHP Fatal error:  Call to undefined method CI_DB_mysqli_driver::count_all_result() in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 32
+[20-Feb-2020 16:25:16 UTC] PHP Fatal error:  Call to undefined method CI_DB_mysqli_driver::count_all_result() in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 32
+[21-Feb-2020 05:17:21 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/jesusga1/public_html/serviceEvaluations/appx/models/User_model.php on line 16

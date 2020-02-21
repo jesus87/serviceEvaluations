@@ -12,19 +12,19 @@ class Api extends REST_Controller{
 		$this->load->model('user_model');
     }
 
-    //API - client sends isbn and on valid isbn book information is sent back
+    //API - client sends user and on valid user information is sent back
     function userById_get(){
 
-        $isbn  = $this->get('id');
+        $user  = $this->get('huella');
         
-        if(!$isbn){
+        if(!$user){
 
-            $this->response("No Id specified", 400);
+            $this->response("No User specified", 400);
 
             exit;
         }
 
-        $result = $this->user_model->BuscaById( $isbn );
+        $result = $this->user_model->BuscaById( $user );
 
         if($result){
 
@@ -34,13 +34,13 @@ class Api extends REST_Controller{
         } 
         else{
 
-             $this->response("Invalid Id", 404);
+             $this->response("User Has no Huella", 404);
 
             exit;
         }
     } 
 
-    //API -  Fetch All books
+    //API -  Fetch All users
     function users_get(){
 
 		$users = $this->user_model->Busca();
@@ -55,35 +55,77 @@ class Api extends REST_Controller{
 			$this->response(NULL, 404);
 		}
     }
+    function usersSinNull_get(){
+
+		$users = $this->user_model->BuscaSinNull();
+
+		if($users)
+		{
+			$this->response($users, 200);
+		}
+
+		else
+		{
+			$this->response(NULL, 404);
+		}
+    }
+    //API - create a new token item in database.
+    function generateToken_post(){
+             
+             $huella  = $this->post('huella');
+      
+      
+             if(!$huella)  {
+                $this->response("Enter complete user information to get token", 400);
+             }
+             $name = $this->user_model->BuscaById($huella);
+             if($name !== "notfound"){
+                 $token = bin2hex(openssl_random_pseudo_bytes(32));
+                         $data = array(
+    			'usuario' => $name,
+    			'token' => $token
+    		    );
+                $result = $this->user_model->AgregaToken($data);
+                if($result === 0){
+    
+                    $this->response("Token could not be saved. Try again.", 500);
+    
+                }else{
+                    $this->response($token, 200);  
+                }
+             }
+             $this->response("notfound", 404);
+             
+             
+                
+            
+         
+
+    }
      
-    //API - create a new book item in database.
-    function addBook_post(){
+    //API - create a new user item in database.
+    function addUser_post(){
 
-         $name      = $this->post('name');
+         $name      = $this->post('user');
 
-         $price     = $this->post('price');
+         $huella     = $this->post('huella');
 
-         $author    = $this->post('author');
+         
+         if(!$name){
 
-         $category  = $this->post('category');
-
-         $language  = $this->post('language');
-
-         $isbn      = $this->post('isbn');
-
-         $pub_date  = $this->post('publish_date');
-        
-         if(!$name || !$price || !$author || !$price || !$isbn || !$category){
-
-                $this->response("Enter complete book information to save", 400);
+                $this->response("Enter complete user information to save", 400);
 
          }else{
 
-            $result = $this->book_model->add(array("name"=>$name, "price"=>$price, "author"=>$author, "category"=>$category, "language"=>$language, "isbn"=>$isbn, "publish_date"=>$pub_date));
-
+            $data = array(
+			'usuario' => $name,
+			'huella' => $huella
+		    );
+            $result = $this->user_model->Agrega($data);
+            
             if($result === 0){
 
-                $this->response("Book information coild not be saved. Try again.", 404);
+                $this->response("User information could not be saved. Try again.", 500);
 
             }else{
 
@@ -96,72 +138,7 @@ class Api extends REST_Controller{
     }
 
     
-    //API - update a book 
-    function updateBook_put(){
-         
-         $name      = $this->put('name');
-
-         $price     = $this->put('price');
-
-         $author    = $this->put('author');
-
-         $category  = $this->put('category');
-
-         $language  = $this->put('language');
-
-         $isbn      = $this->put('isbn');
-
-         $pub_date  = $this->put('publish_date');
-
-         $id        = $this->put('id');
-         
-         if(!$name || !$price || !$author || !$price || !$isbn || !$category){
-
-                $this->response("Enter complete book information to save", 400);
-
-         }else{
-            $result = $this->book_model->update($id, array("name"=>$name, "price"=>$price, "author"=>$author, "category"=>$category, "language"=>$language, "isbn"=>$isbn, "publish_date"=>$pub_date));
-
-            if($result === 0){
-
-                $this->response("Book information coild not be saved. Try again.", 404);
-
-            }else{
-
-                $this->response("success", 200);  
-
-            }
-
-        }
-
-    }
-
-    //API - delete a book 
-    function deleteBook_delete()
-    {
-
-        $id  = $this->delete('id');
-
-        if(!$id){
-
-            $this->response("Parameter missing", 404);
-
-        }
-         
-        if($this->book_model->delete($id))
-        {
-
-            $this->response("Success", 200);
-
-        } 
-        else
-        {
-
-            $this->response("Failed", 400);
-
-        }
-
-    }
+   
 
 
 }
