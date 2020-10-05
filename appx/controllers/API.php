@@ -137,7 +137,37 @@ class Api extends REST_Controller{
 
     }
 
-    
+    function sendMail_post(){
+
+         $nombre      = $this->post('nombre');
+         $curp     = $this->post('curp');
+         $direccion     = $this->post('direccion');
+         $telefono     = $this->post('telefono');
+         $tutor1     = $this->post('tutor1');
+         $tutor2     = $this->post('tutor2');
+         $grado     = $this->post('grado');
+         
+         
+         
+        $from = "contacto@jesusgarciaflores.com";
+        $to = "jesus.garciaflores87@gmail.com";
+        $subject = "Ficha de Inscripcion";
+        
+            
+            $message = 'Nombre Alumno: '. $nombre."\n";
+            $message .= 'CURP: '. $curp."\n";
+            $message .='Direccion: '.$direccion."\n";
+            $message .='Telefono: '.$telefono."\n";
+            $message .='Tutor 1: '.$tutor1."\n";
+            $message .='Tutor 2: '.$tutor2."\n";
+            $message .='Grado: '.$grado."\n";
+            
+            $headers = "From:" . $from;
+            mail($to,$subject,$message, $headers);
+            $this->response("success", 200);  
+
+    }
+
    
 
 
